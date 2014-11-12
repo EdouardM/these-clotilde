@@ -1,7 +1,9 @@
 # these-clotilde
 #FsReveal
+# FsReveal
 
-FsReveal brings F# to the [reveal.js][revealjs] web presentation framework.
+FsReveal allows you to write beautiful slides in [Markdown](http://daringfireball.net/projects/markdown/syntax)
+and brings F# to the [reveal.js][revealjs] web presentation framework.
 
 ## Features
 
@@ -19,6 +21,7 @@ FsReveal brings F# to the [reveal.js][revealjs] web presentation framework.
 Clone or [download](https://github.com/fsprojects/FsReveal/archive/master.zip) the [FsReveal repository](https://github.com/fsprojects/FsReveal). Check out GitHub's links to the right if you need some help.
 
 ### Prerequisites
+
 If you are using Linux or OS X, [you need to install Mono](http://www.mono-project.com/download/ "Install Mono").
 
 Windows users don't need to install anything.
