@@ -1,258 +1,104 @@
-- title : React Native with F#
+- title : Soutenance Thèse
 - description : Introduction to React Native with F#
-- author : Steffen Forkmann
-- theme : night
+- author : Clotilde André
+- theme : sky
 - transition : default
 
 ***
 
-## React Native with F#
+## La sexualité des personnes âgées en EHPAD
 
 <br />
+
+Présenté par Clotilde André
+
 <br />
 
-### Modern mobile app development
+Directeur de thèse: Gérard Ducos
 
-<br />
-<br />
-Steffen Forkmann - [@sforkmann](http://www.twitter.com/sforkmann)
 
 ***
+- id : Justification
 
-### Modern mobile app development?
+### Justification
 
-* UI/UX
-    * "Native mobile apps"
-    * Performance
-* Tooling
-    * Hot loading
-    * IntelliSense
-* Maintainability
-    * Easy to debug
-    * Correctness
+* __Motif personnel__: anecdote entendue dans un EHPAD
 
----
+* __Intérêt__ pour la profession:
+    * 585 560 pers en EHPAD en 2015 
+    * En constante augmentation + 7 % / an
 
-### "Native" UI
+* __Sujet tabou__ dans les EHPAD
 
- <img src="images/meter.png" style="background: transparent; border-style: none;"  width=300 />
+* __Peu de Biblio__, peu d’étude du point de vue des résidents 
 
----
+* __Question de Recherche__ : *Qu’en est- il de la sexualité en EHPAD ?*
 
-### Tooling
+***
+- id : Objectifs
 
-<img src="images/hotloading.gif" style="background: transparent; border-style: none;"  />
+### Objectifs
 
-*** 
+* __Objectifs primaires__: 
+    * Rechercher la proportion de résidents déclarant une sexualité
+    * Caractériser cette population
 
-### Model - View - Update
+* __Objectifs secondaires__ : 
+    * Rechercher des facteurs d’influences
+    * Proposer des pistes d’améliorations
 
-#### "Elm - Architecture"
+***
+- id : Méthode-1
 
- <img src="images/Elm.png" style="background: white;" width=700 />
+### Méthode 1/3
 
+* __Etude de pratique__ déclarée par entretiens en  face to face du 21/03 au 12/09/2017
 
- <small>http://danielbachler.de/2016/02/11/berlinjs-talk-about-elm.html</small>
-
+* __Population__ : 
+    * 4 EHPAD
+    * 61 résidents / 78 sélectionnés
 
 --- 
+- id : Méthode-2
 
-### Model - View - Update
+### Méthode 2/3
 
-    // MODEL
-
-    type Model = int
-
-    type Msg =
-    | Increment
-    | Decrement
-
-    let init() : Model = 0
-
----
-
-### Model - View - Update
-
-    // VIEW
-
-    let view model dispatch =
-        div []
-            [ button [ OnClick (fun _ -> dispatch Decrement) ] [ str "-" ]
-              div [] [ str (model.ToString()) ]
-              button [ OnClick (fun _ -> dispatch Increment) ] [ str "+" ] ]
+* __OUTILS__ :  
+* Questionnaire résident : 5 parties 
+    * Caractéristiques du résidents
+    * Expression d’une sexualité
+    * Les freins
+    * Les améliorations
+    * ATCD medicaux
+* Questionnaire EHPAD : principales caractéristiques des EHPAD
+* Questionnaires à partir de la biblio remaniés par le directeur de thèse 
+* Pré-test sur des résidents
 
 ---
+- id : Méthode-3
 
-### Model - View - Update
+### Méthode 3/3
 
-    // UPDATE
 
-    let update (msg:Msg) (model:Model) =
-        match msg with
-        | Increment -> model + 1
-        | Decrement -> model - 1
+* Déroulé
+    * Sélection des EHPAD et contact autorisation
+    * Sélection des résidents : liste établie par le médecin coordinateur et le psychologue 
+    * Modalité de recueil : chambre du résident en toute intimité 
 
----
-
-### Model - View - Update
-
-    // wiring things up
-
-    Program.mkSimple init update view
-    |> Program.withConsoleTrace
-    |> Program.withReact "elmish-app"
-    |> Program.run
-
----
-
-### Model - View - Update
-
-# Demo
+* Analyse Descriptive et explicative (tests statistiques)
 
 ***
+- id : CaracteristiqueEHPAD
 
-### Sub-Components
+### Résultats : caractéristiques des EHPAD
 
-    // MODEL
-
-    type Model = {
-        Counters : Counter.Model list
-    }
-
-    type Msg = 
-    | Insert
-    | Remove
-    | Modify of int * Counter.Msg
-
-    let init() : Model =
-        { Counters = [] }
-
----
-
-### Sub-Components
-
-    // VIEW
-
-    let view model dispatch =
-        let counterDispatch i msg = dispatch (Modify (i, msg))
-
-        let counters =
-            model.Counters
-            |> List.mapi (fun i c -> Counter.view c (counterDispatch i)) 
-        
-        div [] [ 
-            yield button [ OnClick (fun _ -> dispatch Remove) ] [  str "Remove" ]
-            yield button [ OnClick (fun _ -> dispatch Insert) ] [ str "Add" ] 
-            yield! counters ]
-
----
-
-### Sub-Components
-
-    // UPDATE
-
-    let update (msg:Msg) (model:Model) =
-        match msg with
-        | Insert ->
-            { Counters = Counter.init() :: model.Counters }
-        | Remove ->
-            { Counters = 
-                match model.Counters with
-                | [] -> []
-                | x :: rest -> rest }
-        | Modify (id, counterMsg) ->
-            { Counters =
-                model.Counters
-                |> List.mapi (fun i counterModel -> 
-                    if i = id then
-                        Counter.update counterMsg counterModel
-                    else
-                        counterModel) }
-
----
-
-### Sub-Components
-
-# Demo
-
-***
-
-### React
-
-* Facebook library for UI 
-* <code>state => view</code>
-* Virtual DOM
-
----
-
-### Virtual DOM - Initial
-
-<br />
-<br />
-
-
- <img src="images/onchange_vdom_initial.svg" style="background: white;" />
-
-<br />
-<br />
-
- <small>http://teropa.info/blog/2015/03/02/change-and-its-detection-in-javascript-frameworks.html</small>
-
----
-
-### Virtual DOM - Change
-
-<br />
-<br />
-
-
- <img src="images/onchange_vdom_change.svg" style="background: white;" />
-
-<br />
-<br />
-
- <small>http://teropa.info/blog/2015/03/02/change-and-its-detection-in-javascript-frameworks.html</small>
-
----
-
-### Virtual DOM - Reuse
-
-<br />
-<br />
-
-
- <img src="images/onchange_immutable.svg" style="background: white;" />
-
-<br />
-<br />
-
- <small>http://teropa.info/blog/2015/03/02/change-and-its-detection-in-javascript-frameworks.html</small>
+| Question/Item                             | Castres           | Lautrec     | Puylaurens | Toulouse
+| --------------------                      |:-------------:    | --------:   | --------:  | --------:   
+| Nombre lits doubles                       | 0                 | 0           | 0          | 0
+| col 2 is                                  | centered          |   $12       |            |
+| zebra stripes                             | are neat          |    $1       |            |
 
 
 *** 
 
-### ReactNative
-
- <img src="images/ReactNative.png" style="background: white;" />
-
-
- <small>http://timbuckley.github.io/react-native-presentation</small>
-
-***
-
-### Show me the code
-
-*** 
-
-### TakeAways
-
-* Learn all the FP you can!
-* Simple modular design
-
-*** 
-
-### Thank you!
-
-* https://github.com/fable-compiler/fable-elmish
-* https://ionide.io
-* https://facebook.github.io/react-native/
+### Merci!
